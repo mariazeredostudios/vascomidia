@@ -11,6 +11,7 @@ Uso: python3 scripts/make_music.py [duracao_segundos]
 Saída: build/trilha.wav
 """
 
+import json
 import os
 import sys
 import numpy as np
@@ -18,16 +19,27 @@ from scipy.io import wavfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "build", "trilha.wav")
+TIMELINE_IN = os.path.join(ROOT, "build", "timeline.json")
 
 SR = 44100
-DURATION = float(sys.argv[1]) if len(sys.argv) > 1 else 13.8
 BPM = 128.0
 BEAT = 60.0 / BPM
 
-# marcos da timeline (segundos) — alinhados ao corte do vídeo
-T_DROP = 2.6      # fim do gancho / início do groove (passo 1)
-T_RISER = 9.3     # início do riser (perto do fim do passo 5)
-T_IMPACT = 11.0   # impacto na entrada do CTA
+# marcos da timeline (segundos) — lidos de build/timeline.json (gerado pelo
+# animate.py a partir da duração real de cada cena), com fallback manual
+# caso o arquivo não exista ainda.
+if os.path.exists(TIMELINE_IN):
+    with open(TIMELINE_IN) as f:
+        _tl = json.load(f)
+    DURATION = float(sys.argv[1]) if len(sys.argv) > 1 else _tl["total"]
+    T_DROP = _tl["t_drop"]
+    T_RISER = _tl["t_riser"]
+    T_IMPACT = _tl["t_impact"]
+else:
+    DURATION = float(sys.argv[1]) if len(sys.argv) > 1 else 13.8
+    T_DROP = 2.6
+    T_RISER = 9.3
+    T_IMPACT = 11.0
 T_END = DURATION
 
 

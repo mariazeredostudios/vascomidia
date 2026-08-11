@@ -137,7 +137,7 @@ def scene_hook():
     draw = ImageDraw.Draw(img)
 
     fnt = F_TITLE_BLACK(78)
-    lines = wrap_text(draw, "NINGUÉM TE EXPLICA COMO FUNCIONA UMA SELETIVA DE CLUBE GRANDE".upper(), fnt, SAFE_TEXT_W)
+    lines = wrap_text(draw, "NINGUÉM TE EXPLICA COMO JOGAR PELO SEU TIME DE CORAÇÃO.".upper(), fnt, SAFE_TEXT_W)
     y = 620
     for line in lines:
         draw.text((70, y), line, font=fnt, fill=WHITE)
@@ -146,7 +146,7 @@ def scene_hook():
 
     y += 26
     fnt2 = F_TITLE_XB(78)
-    draw.text((70, y), "ATÉ AGORA.", font=fnt2, fill=GOLD)
+    draw.text((70, y), "ATÉ AGORA", font=fnt2, fill=GOLD)
 
     fnt3 = F_BODY_MED(36)
     draw.text((70, H - 260), "Seletiva Vasco International", font=fnt3, fill=WHITE)
